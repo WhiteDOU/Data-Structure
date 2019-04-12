@@ -1,0 +1,154 @@
+#include<iostream>
+#include<cstdlib>
+#include<fstream>
+#include<cstring>
+#include<cstdio>
+#include"StaticLinkList.h"
+#include"Other.h"
+
+using namespace std;
+
+void Enter_file()
+{
+    StaticLinkList S;
+    ElemType elem,check;
+    int n=0;
+    int c=0;
+    int m=0;
+    int unused,i,j,k;
+    char file[100];
+    c=Read(S);
+    ifstream fin;
+    system("cls");
+    Header_administrator();
+    printf("请输入要读取的文件路径\n");
+    cin>>file;
+    fin.open(file,ios::in);
+    while(fin.fail())
+    {
+        system("cls");
+        Header_administrator();
+        printf("文件打开失败\n");
+        printf("请输入正确的文件路径:\n");
+        cin>>file;
+        fin.open(file,ios::in);
+    }
+    system("cls");
+    Header_administrator();
+    printf("文件打开成功啦~\n");
+    printf("读取数据信息如下所示：\n");
+    fin>>n;
+    fin>>elem.plate;
+    fin>>elem.name;
+    fin>>elem.ID;
+    fin>>elem.car;
+    fin>>unused;
+    for(i=1;i<=n;i++)
+    {
+        fin>>elem.plate;
+        fin>>elem.name;
+        fin>>elem.ID;
+        fin>>elem.car;
+        fin>>unused;
+        k=2;
+        while(k==2)
+        {
+            system("cls");
+            Header_administrator();
+            cout<<"正在录入文件中第"<<i<<"个信息，已成功录入"<<m<<"个信息，共"<<n<<"个信息"<<endl<<endl;
+            j=0;
+            printf("车牌号：\t\t辽");
+            for(j=0;j<6;j++)
+                printf("%c",elem.plate[j]);
+            printf("\n车主姓名：\t\t");
+            cout<<elem.name<<endl;
+            printf("车主身份证号：\t\t");
+            printf("%s",elem.ID);
+            printf("\n车辆品牌及型号：\t");
+            cout<<elem.car<<endl;
+            printf("请认真地再审查一遍上述信息是否有误哟~\n1:没有错误\t2：有错误\n请选择:");
+            scanf("%d",&k);
+            while(k!=1&&k!=2)
+            {
+                printf("输入的信息不正确哟~\n");
+                printf("请认真地再审查一遍上述信息是否有误哟~\n1:没有错误\t2：有错误\n请选择:");
+                scanf("%d",&k);
+            }
+            if(k==2)
+            {
+                elem=Revise(elem);//有错误的时候就执行修改操作//
+            }
+            else
+            {
+                check=elem;
+                check=Search_Binary(S,c,check);
+                if(check.plate[0]!=0)
+                {
+                    system("cls");
+                    Header_administrator();
+                    printf("\n对不起,此车牌号码与之前系统文件里的车牌号码重复！\n");
+                    printf("此汽车牌照信息无法录入到系统文件！\n");
+                    printf("\n");
+                    Line();
+                    system("pause");
+                }
+                else
+                {
+                    S[c].cur=c+1;
+                    c++;
+                    strcpy(S[c].data.plate,elem.plate);
+                    strcpy(S[c].data.name,elem.name);
+                    strcpy(S[c].data.ID,elem.ID);
+                    strcpy(S[c].data.car,elem.car);
+                    S[c].cur=0;
+                    m++;
+                    system("cls");
+                    Header_administrator();
+                    printf("\n");
+                    Space(20);
+                    printf("信息录入成功\n");
+                    printf("\n");
+                    Line();
+                    system("pause");
+                }
+            }
+        }
+    }
+    fin.close();
+    system("cls");
+    Header_administrator();
+    printf("\n");
+    Space(5);
+    cout<<"此文件共"<<n<<"个信息,成功录入"<<m<<"个信息"<<endl;
+    printf("\n");
+    Line();
+    if(m!=0)
+    {
+        printf("即将更新系统存储文件\n");
+        system("pause");
+        system("cls");
+        Header_administrator();
+        printf("\n");
+        Space(10);
+        printf("更新系统存储文件中...");
+        printf("\n");
+        Line();
+        Sort(S,c);
+        Store(S,c);
+        system("cls");
+        Header_administrator();
+        printf("\n");
+        Space(10);
+        printf("系统存储文件更新成功！\n");
+        printf("\n");
+        Line();
+        printf("即将返回管理员更新系统信息界面\n");
+        system("pause");
+    }
+    else
+    {
+        printf("未录入新的汽车牌照信息\n");
+        printf("即将返回管理员更新系统信息界面\n");
+        system("pause");
+    }
+}

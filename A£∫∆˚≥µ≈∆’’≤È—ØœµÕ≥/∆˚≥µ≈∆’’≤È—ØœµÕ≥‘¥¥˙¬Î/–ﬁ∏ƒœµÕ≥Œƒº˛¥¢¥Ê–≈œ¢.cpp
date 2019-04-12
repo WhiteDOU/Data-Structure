@@ -1,0 +1,176 @@
+#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include"StaticLinkList.h"
+#include"Other.h"
+#include"Input.h"
+
+using namespace std;
+
+void Amend()
+{
+    StaticLinkList S;
+    ElemType amend;
+    int i=1;
+    int c=0;
+    int j,k,t,test;
+    while(i==1)
+    {
+        i=0;
+        test=0;
+        t=0;
+        c=Read(S);//读取系统文件数据
+        system("cls");
+        Header_administrator();
+        printf("修改汽车牌照的信息\n");
+        amend=Input_plate(amend,9);//接收要修改信息的车牌号码
+        system("cls");
+        Header_administrator();
+        printf("\n");
+        Space(10);
+        cout<<"车牌辽"<<amend.plate<<"信息查找中..."<<endl;
+        printf("\n");
+        Line();
+        test=Search_Binary_Admin(S,c,amend);//通过车牌号码查找信息
+        system("cls");
+        Header_administrator();
+        printf("查找结果...：\n");
+        if(test!=0)
+        {
+            k=1;
+            while(k==1)
+            {
+                system("cls");
+                Header_administrator();
+                printf("车牌号：\t\t辽");
+                for(j=0;j<6;j++)
+                    printf("%c",S[test].data.plate[j]);
+                printf("\n车主姓名：\t\t");
+                printf("%s",S[test].data.name);
+                printf("\n车主身份证号：\t\t");
+                printf("%s",S[test].data.ID);
+                printf("\n车辆品牌及型号：\t");
+                printf("%s",S[test].data.car);
+                printf("\n");
+                Line();
+                printf("选择：1.\t\t修改该信息        0.\t\t返回\n");
+                printf("请选择：\n");
+                scanf("%d",&k);
+                while(k!=0&&k!=1)
+                {
+                    printf("请走心地输入一遍数据！\n");
+                    printf("选择：1.\t\t修改该信息    0.\t\t返回\n");
+                    printf("请选择：\n");
+                    scanf("%d",&k);
+                }
+                if(k==1)
+                {
+                    printf("\n请选择要修改的信息\n");
+                    printf("1.车主姓名\n");
+                    printf("2.车的车牌号\n");
+                    printf("3.车的品牌和型号\n");
+                    printf("0.返回\n");
+                    printf("请选择：\n");
+                    scanf("%d",&j);
+                    while(j!=0&&j!=1&&j!=2&&j!=3)
+                    {
+                        printf("输入的选择不正确啊\n\n请选择1、2、3、4、0\n请选择：\n");
+                        scanf("%d",&j);
+                    }
+                    if(j!=0)
+                    {
+                        printf("请输入新的信息哟\n");
+                        t++;
+                    }
+                    switch(j)
+                    {
+                        case 1:S[test].data=Input_name(S[test].data);break;
+                        case 2:S[test].data=Input_ID(S[test].data);break;
+                        case 3:S[test].data=Input_car(S[test].data);break;
+                        case 0:
+                            if(t==0)
+                            {
+                                i=1;
+                                system("cls");
+                                Header_administrator();
+                                printf("\n");
+                                Space(10);
+                                printf("！！！您没有修改信息呀！\n");
+                                printf("\n");
+                                Line();
+                                system("pause");
+                            }
+                            else
+                            {
+                                printf("\n");
+                                Line();
+                            }
+                            break;
+                    }
+                    if(i!=1)
+                    {
+                        system("cls");
+                        Header_administrator();
+                        printf("\n");
+                        Space(10);
+                        printf("恭喜！信息修改成功！\n");
+                        printf("\n");
+                        Line();
+                        i=0;
+                        system("pause");
+                    }
+                }
+                else
+                {
+                    if(t==0)
+                    {
+                        system("cls");
+                        Header_administrator();
+                        printf("\n");
+                        Space(10);
+                        printf("一点也没有修改信息的痕迹！\n");
+                        printf("\n\n");
+                        Line();
+                        system("pause");
+                    }
+                    else
+                    {
+                        printf("\n");
+                        Line();
+                    }
+                }
+            }
+        }
+        else
+        {
+            system("cls");
+            Header_administrator();
+            printf("\n");
+            Space(10);
+            printf("未找到该车牌的信息哟~\n");
+            printf("\n");
+            Line();
+        }
+        printf("\n");
+        printf("请选择~：1.\t继续修改\t0.\t返回上一界面\n");
+        printf("请选择：\n");
+        scanf("%d",&i);
+        while(i!=0&&i!=1)
+        {
+           printf("输入的好像不正确哟，请认真一点输入：\n");
+            printf("请选择~：1.\t继续修改\t0.\t返回上一界面\n");
+            printf("请选择：\n");
+            scanf("%d",&i);
+        }
+    }
+    Store(S,c);//储存修改后的信息
+    system("cls");
+    Header_administrator();
+    printf("\n");
+    Space(10);
+    printf("即将返回管理员的系统界面了哟~\n");
+    printf("\n");
+    Line();
+    system("pause");
+}
