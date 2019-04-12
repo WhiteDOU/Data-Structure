@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="汽车牌照查询系统" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/汽车牌照查询系统" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/汽车牌照查询系统" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Admin.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Choice.h" />
+		<Unit filename="Input.h" />
+		<Unit filename="Main.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="Other.h" />
+		<Unit filename="Query.h" />
+		<Unit filename="StaticLinkList.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="修改管理员密码.cpp" />
+		<Unit filename="修改系统文件储存信息.cpp" />
+		<Unit filename="分块索引查找法.cpp" />
+		<Unit filename="删除系统文件储存信息.cpp" />
+		<Unit filename="存储数据到系统文件.cpp" />
+		<Unit filename="密码验证.cpp" />
+		<Unit filename="屏幕录入汽车牌照信息.cpp" />
+		<Unit filename="折半查找法.cpp" />
+		<Unit filename="数据修改函数.cpp" />
+		<Unit filename="文件录入汽车牌照信息.cpp" />
+		<Unit filename="显示系统文件信息.cpp" />
+		<Unit filename="汽车牌照信息查询.cpp" />
+		<Unit filename="汽车车牌号码选择.cpp" />
+		<Unit filename="界面.cpp" />
+		<Unit filename="管理员更新系统信息.cpp" />
+		<Unit filename="系统储存文件信息备份.cpp" />
+		<Unit filename="读取系统文件数据.cpp" />
+		<Unit filename="车辆牌照信息输入函数.cpp" />
+		<Unit filename="重置系统储存文件.cpp" />
+		<Unit filename="链式基数排序.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

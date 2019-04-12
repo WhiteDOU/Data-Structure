@@ -1,0 +1,189 @@
+#include<iostream>
+#include<cstdlib>
+#include<fstream>
+#include<cstring>
+#include<cstdio>
+#include"StaticLinkList.h"
+#include"Other.h"
+#include"input.h"
+
+using namespace std;
+
+void Enter_screen()
+{
+    StaticLinkList S;
+    ElemType elem,check;
+    StaticLinkList Extra;
+    char file[100];
+    int e=0;
+    int c=0;
+    int i,j,k;
+    char str[10]={"0"};
+    for(i=0;i<MAXSIZE;i++)//初始化链表
+    {
+        for(j=0;j<6;j++)
+            Extra[i].data.plate[j]='0';
+        Extra[i].data.plate[6]='\0';
+        strcpy(Extra[i].data.name,str);
+        for(j=0;j<18;j++)
+            Extra[i].data.ID[j]='0';
+        Extra[i].data.ID[18]='\0';
+        strcpy(Extra[i].data.car,str);
+        Extra[i].cur=i+1;
+    }
+    i=1;
+    while(i==1)
+    {
+        c=Read(S);
+        system("cls");
+        Header_administrator();
+        printf("开始录入车牌的信息\n");
+        k=2;
+        elem=Input_plate(elem,9);//录入车牌号码
+        elem=Input_name(elem);//录入车主姓名
+        elem=Input_ID(elem);//录入车主身份证号
+        elem=Input_car(elem);//录入车辆型号
+        while(k==2)
+        {
+            system("cls");
+            Header_administrator();
+            j=0;
+            printf("车牌号：\t\n");
+            for(j=0;j<6;j++)
+                printf("%c",elem.plate[j]);
+            printf("\n车主姓名：\t\t");
+            cout<<elem.name<<endl;
+            printf("车主身份证号：\t\t");
+            printf("%s",elem.ID);
+            printf("\n车辆品牌及型号：\t");
+            cout<<elem.car<<endl;
+            printf("\n请仔细核对上面的信息是否有误哟~\n1.准确无误\t2.有错误\n");
+            printf("请选择：\n");
+            scanf("%d",&k);
+            while(k!=1&&k!=2)
+            {
+                printf("输入的不正确哟~\n");
+                printf("\n请仔细核对上面的信息是否有误哟~\n1.准确无误\t2.有错误\n");
+                scanf("%d",&k);
+            }
+            if(k==2)
+            {
+                elem=Revise(elem);//修改已经输入的信息
+            }
+            else
+            {
+                check=elem;
+                check=Search_Binary(S,c,check);//检查是否与系统文件里的信息重复
+                if(check.plate[0]!=0)
+                {
+                    system("cls");
+                    Header_administrator();
+                    printf("对不起,此车牌号码与之前系统文件里的车牌号码重复！\n");
+                    cout<<"输入的车牌号码为辽"<<elem.plate<<endl;
+                    printf("请仔细核对号码是否有误！\n");
+                    printf("请输入新的号码\n");
+                    elem=Input_plate(elem,9);
+                    k=2;
+                }
+                else
+                {
+                    S[c].cur=c+1;
+                    c++;
+                    strcpy(S[c].data.plate,elem.plate);
+                    strcpy(S[c].data.name,elem.name);
+                    strcpy(S[c].data.ID,elem.ID);
+                    strcpy(S[c].data.car,elem.car);
+                    S[c].cur=0;
+                    Extra[e].cur=e+1;
+                    e++;
+                    strcpy(Extra[e].data.plate,elem.plate);
+                    strcpy(Extra[e].data.name,elem.name);
+                    strcpy(Extra[e].data.ID,elem.ID);
+                    strcpy(Extra[e].data.car,elem.car);
+                    Extra[e].cur=0;
+                    system("cls");
+                    Header_administrator();
+                    printf("\n");
+                    Space(10);
+                    printf("新汽车牌照信息录入到系统文件中...");
+                    printf("\n");
+                    Line();
+                    Sort(S,c);//链式基数排序
+                    Store(S,c);//存储信息到系统文件
+                    system("cls");
+                    Header_administrator();
+                    printf("\n");
+                    Space(20);
+                    printf("信息录入成功\n");
+                    printf("\n");
+                    Line();
+                }
+            }
+        }
+        printf("是否继续录入车辆牌照信息\n");
+        printf("1.继续录入\t0.退出\n");
+        printf("请选择：\n");
+        scanf("%d",&i);
+        while(i!=0&&i!=1)
+        {
+            printf("输入的不正确啊\n");
+            printf("是否继续录入车辆牌照信息\n");
+            printf("1.继续录入\t0.退出\n");
+            printf("请选择\n");
+            scanf("%d",&i);
+        }
+    }
+    system("cls");
+    Header_administrator();
+    printf("\n");
+    printf("对新录入的汽车牌照信息是否备份？\n");
+    printf("1.备份\t0.不备份\n");
+    scanf("%d",&i);
+    while(i!=1&&i!=0)
+    {
+        printf("输入的有点问题啊\n");
+        printf("1.备份\t0.不备份\n");
+        printf("请选择\n");
+        scanf("%d",&i);;
+    }
+    if(i==1)//将新输入的信息输入到其他文件中
+    {
+        system("cls");
+        Header_administrator();
+        printf("\n");
+        ofstream fout;
+        printf("对输入的文件进行备份操作\n");
+        printf("请输入文件路径\n");
+        cin>>file;
+        fout.open(file,ios::out);
+        while(fout.fail())
+        {
+            printf("小哥哥输入的地址有误哟~\n");
+            printf("请输入正确的地址啦~\n");
+            cin>>file;
+            fout.open(file,ios::out);
+        }
+        fout<<e<<" ";
+        for(i=0;i<MAXSIZE;i++)
+        {
+            fout<<Extra[i].data.plate<<" "<<Extra[i].data.name<<" "<<Extra[i].data.ID<<" "<<Extra[i].data.car<<" "<<Extra[i].cur<<" ";
+        }
+        fout.close();
+        system("cls");
+        Header_administrator();
+        printf("\n");
+        Space(10);
+        printf("新牌照成功录入了哟~\n");
+        printf("\n");
+        Line();
+        system("pause");
+    }
+    system("cls");
+    Header_administrator();
+    printf("\n");
+    Space(10);
+    printf("即将返回管理员操作系统\n");
+    printf("\n");
+    Line();
+    system("pause");
+}
